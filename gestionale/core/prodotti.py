@@ -41,36 +41,43 @@ class Prodotto:
             raise ValueError("Attenzione, il prezzo non può essere negativo.")
         self._price = valore
 
+    #viene usata automaticamente dalla print
     def __str__(self):
         return f"{self.name} - disponibili {self.quantity} pezzi a {self.price} $"
 
+    #viene utilizzato nel debug
     def __repr__(self):
         return f"Prodotto(name = {self.name}, price = {self.price}, quantity = {self.quantity}, supplier = {self.supplier})"
 
+    #metodo per confrontare due oggetti
     def __eq__(self, other: object):
 
-        if not isinstance(other, Prodotto):
+        if not isinstance(other, Prodotto):  #controllo che sia un prodotto
             return NotImplemented
-        return (self.name == other.name
+        return (self.name == other.name   #controllo se i due prodotti sono uguali
                 and self.price == other.price
                 and self.quantity == other.quantity
                 and self.supplier == other.supplier)
 
-    def __lt__(self, other: "Prodotto") -> bool:
+    #metodo per confrontare i prezzi degli oggetti
+    def __lt__(self, other: "Prodotto") -> bool: #con la freccia anticipo che tipo di valore ritorno, non obbligatoria
         return self.price < other.price
 
     def prezzo_finale(self) -> float:
         return self.price*(1+self.aliquota_iva)
 
+#CLASSE CHE EREDITA PRODOTTO
 class ProdottoScontato(Prodotto):
     def __init__(self, name: str, price: float, quantity: int, supplier: str, sconto_percento: float):
-        #Prodotto.__init__()
+        #Prodotto.__init__()  ALTRO MODO PER CHIAMARE IL COSTRUTTORE
         super().__init__(name, price, quantity, supplier)
-        self.sconto_percento = sconto_percento
+        self.sconto_percento = sconto_percento  #Specializzo l'istanza che ho creato
 
+    #scelgo dei metodi che ha solo il prodotto scontato
     def prezzo_finale(self) -> float:
         return self.valore_lordo()*(1-self.sconto_percento/100)
 
+#un altra classe ereditata da prodotto
 class Servizio(Prodotto):
     def __init__(self, name: str, tariffa_oraria: float, ore: int):
         super().__init__(name = name, price = tariffa_oraria, quantity=1, supplier=None)
@@ -85,10 +92,10 @@ class Abbonamento:
         self.prezzo_mensile = prezzo_mensile
         self.mesi = mesi
 
-    def prezzo_finale(self) -> float:
+    def prezzo_finale(self) -> float: #prezzo specializzato ri
         return self.prezzo_mensile*self.mesi
 
-@dataclass
+@dataclass #decoratore, devo solo andare a LISTARE i parametri
 class ProdottoRecord:
     name: str
     prezzo_unitario: float
@@ -98,7 +105,7 @@ MAX_QUANTITA = 1000
 def crea_prodotto_standard(nome: str, prezzo: float):
     return Prodotto(nome, prezzo, 1, None)
 
-def _test_modulo():
+def _test_modulo(): #contiene tutto il codice per testre la mia classe prodotti
     print("Sto testando il modulo prodotti.py")
     myproduct1 = Prodotto(name = "Laptop", price = 1200.0, quantity=12, supplier="ABC")
 
@@ -117,12 +124,14 @@ def _test_modulo():
 
     print(myproduct1)
 
+    #CREO DUE NUOVI PRODOTTI per usare et e lt
     p_a = Prodotto("Laptop", price = 1200.0, quantity=12, supplier="ABC")
     p_b = Prodotto("Mouse ", 10, 14, "CDE")
 
     print("myproduct1 == p_a?", myproduct1 == p_a) #va a chiamare il metodo __eq__ appena implementato. Mi aspetto TRUE
     print("p_a == p_B?", p_a == p_b) # FALSE
 
+    #creo e stampo una lista in ordine decrescente di prezzo grazie al mio lt
     mylist = [p_a, p_b, myproduct1]
     mylist.sort(reverse=True)
 

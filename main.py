@@ -2,6 +2,14 @@ from gestionale.vendite.ordini import Ordine, RigaOrdine, OrdineConSconto
 from gestionale.core.prodotti import Prodotto, crea_prodotto_standard, ProdottoRecord
 from gestionale.core.clienti import Cliente, ClienteRecord
 
+#MODI PER IMPORTARE
+#1) from prodotti import ProdottoScontato
+#   p1 = ProdottoScontato("Ebook Reader", 120.0, 1, "AAA")
+#2) from prodotti import ProdottoScontato as ps
+#   p2= ps("Ebook Reader", 120.0, 1, "AAA")
+#3) import prodotti
+#   p3=prodotti.ProdottoScontato("Ebook Reader", 120.0, 1, "AAA")
+
 print("=======================================================")
 
 p1 = Prodotto("Ebook Reader", 120.0, 1, "AAA")
