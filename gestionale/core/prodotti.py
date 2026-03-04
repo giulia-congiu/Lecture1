@@ -7,9 +7,9 @@ from dataclasses import dataclass
 
 
 class Prodotto:
-    aliquota_iva = 0.22 #variabile di classe -- ovvero è la stessa per tutte le istanze che verranno create.
+    aliquota_iva = 0.22  # variabile di classe -- ovvero è la stessa per tutte le istanze che verranno create.
 
-    def __init__(self, name: str, price: float, quantity: int, supplier = None):
+    def __init__(self, name: str, price: float, quantity: int, supplier=None):
         self.name = name
         self._price = None
         self.price = price
@@ -17,11 +17,11 @@ class Prodotto:
         self.supplier = supplier
 
     def valore_netto(self):
-        return self._price*self.quantity
+        return self._price * self.quantity
 
     def valore_lordo(self):
         netto = self.valore_netto()
-        lordo = netto*(1+self.aliquota_iva)
+        lordo = netto * (1 + self.aliquota_iva)
         return lordo
 
     @classmethod
@@ -30,61 +30,58 @@ class Prodotto:
 
     @staticmethod
     def applica_sconto(prezzo, percentuale):
-        return prezzo*(1-percentuale)
+        return prezzo * (1 - percentuale)
 
     @property
-    def price(self): # eq. getter
+    def price(self):  # eq. getter
         return self._price
+
     @price.setter
     def price(self, valore):
         if valore < 0:
             raise ValueError("Attenzione, il prezzo non può essere negativo.")
         self._price = valore
 
-    #viene usata automaticamente dalla print
     def __str__(self):
         return f"{self.name} - disponibili {self.quantity} pezzi a {self.price} $"
 
-    #viene utilizzato nel debug
     def __repr__(self):
         return f"Prodotto(name = {self.name}, price = {self.price}, quantity = {self.quantity}, supplier = {self.supplier})"
 
-    #metodo per confrontare due oggetti
     def __eq__(self, other: object):
 
-        if not isinstance(other, Prodotto):  #controllo che sia un prodotto
+        if not isinstance(other, Prodotto):
             return NotImplemented
-        return (self.name == other.name   #controllo se i due prodotti sono uguali
+        return (self.name == other.name
                 and self.price == other.price
                 and self.quantity == other.quantity
                 and self.supplier == other.supplier)
 
-    #metodo per confrontare i prezzi degli oggetti
-    def __lt__(self, other: "Prodotto") -> bool: #con la freccia anticipo che tipo di valore ritorno, non obbligatoria
+    def __lt__(self, other: "Prodotto") -> bool:
         return self.price < other.price
 
     def prezzo_finale(self) -> float:
-        return self.price*(1+self.aliquota_iva)
+        return self.price * (1 + self.aliquota_iva)
 
-#CLASSE CHE EREDITA PRODOTTO
+
 class ProdottoScontato(Prodotto):
     def __init__(self, name: str, price: float, quantity: int, supplier: str, sconto_percento: float):
-        #Prodotto.__init__()  ALTRO MODO PER CHIAMARE IL COSTRUTTORE
+        # Prodotto.__init__()
         super().__init__(name, price, quantity, supplier)
-        self.sconto_percento = sconto_percento  #Specializzo l'istanza che ho creato
+        self.sconto_percento = sconto_percento
 
-    #scelgo dei metodi che ha solo il prodotto scontato
     def prezzo_finale(self) -> float:
-        return self.valore_lordo()*(1-self.sconto_percento/100)
+        return self.valore_lordo() * (1 - self.sconto_percento / 100)
 
-#un altra classe ereditata da prodotto
+
 class Servizio(Prodotto):
     def __init__(self, name: str, tariffa_oraria: float, ore: int):
-        super().__init__(name = name, price = tariffa_oraria, quantity=1, supplier=None)
+        super().__init__(name=name, price=tariffa_oraria, quantity=1, supplier=None)
         self.ore = ore
 
     def prezzo_finale(self) -> float:
         return self.price * self.ore
+
 
 class Abbonamento:
     def __init__(self, nome: str, prezzo_mensile: float, mesi: int):
@@ -92,28 +89,33 @@ class Abbonamento:
         self.prezzo_mensile = prezzo_mensile
         self.mesi = mesi
 
-    def prezzo_finale(self) -> float: #prezzo specializzato ri
-        return self.prezzo_mensile*self.mesi
+    def prezzo_finale(self) -> float:
+        return self.prezzo_mensile * self.mesi
 
-@dataclass #decoratore, devo solo andare a LISTARE i parametri
+
+@dataclass
 class ProdottoRecord:
     name: str
     prezzo_unitario: float
 
+
 MAX_QUANTITA = 1000
+
 
 def crea_prodotto_standard(nome: str, prezzo: float):
     return Prodotto(nome, prezzo, 1, None)
 
-def _test_modulo(): #contiene tutto il codice per testre la mia classe prodotti
+
+def _test_modulo():
     print("Sto testando il modulo prodotti.py")
-    myproduct1 = Prodotto(name = "Laptop", price = 1200.0, quantity=12, supplier="ABC")
+    myproduct1 = Prodotto(name="Laptop", price=1200.0, quantity=12, supplier="ABC")
 
     print(f"Nome prodotto: {myproduct1.name} - prezzo: {myproduct1.price}")
 
-    print(f"Il totale lordo di myproduct1 è {myproduct1.valore_lordo()}") #uso un metodo di istanza
-    p3 = Prodotto.costruttore_con_quantità_uno("Auricolari", 200.0, "ABC") #Modo per chiamare un metodo di classe.
-    print(f"Prezzo scontato di myproduct1 {Prodotto.applica_sconto(myproduct1.price, 0.15)}")#Modo per chiamare un metodo statico.
+    print(f"Il totale lordo di myproduct1 è {myproduct1.valore_lordo()}")  # uso un metodo di istanza
+    p3 = Prodotto.costruttore_con_quantità_uno("Auricolari", 200.0, "ABC")  # Modo per chiamare un metodo di classe.
+    print(
+        f"Prezzo scontato di myproduct1 {Prodotto.applica_sconto(myproduct1.price, 0.15)}")  # Modo per chiamare un metodo statico.
 
     myproduct2 = Prodotto("Mouse", 10, 25, "CDE")
     print(f"Nome prodotto: {myproduct2.name} - prezzo: {myproduct2.price}")
@@ -124,20 +126,20 @@ def _test_modulo(): #contiene tutto il codice per testre la mia classe prodotti
 
     print(myproduct1)
 
-    #CREO DUE NUOVI PRODOTTI per usare et e lt
-    p_a = Prodotto("Laptop", price = 1200.0, quantity=12, supplier="ABC")
+    p_a = Prodotto("Laptop", price=1200.0, quantity=12, supplier="ABC")
     p_b = Prodotto("Mouse ", 10, 14, "CDE")
 
-    print("myproduct1 == p_a?", myproduct1 == p_a) #va a chiamare il metodo __eq__ appena implementato. Mi aspetto TRUE
-    print("p_a == p_B?", p_a == p_b) # FALSE
+    print("myproduct1 == p_a?",
+          myproduct1 == p_a)  # va a chiamare il metodo __eq__ appena implementato. Mi aspetto TRUE
+    print("p_a == p_B?", p_a == p_b)  # FALSE
 
-    #creo e stampo una lista in ordine decrescente di prezzo grazie al mio lt
     mylist = [p_a, p_b, myproduct1]
     mylist.sort(reverse=True)
 
     print("lista di prodotti ordinata")
     for p in mylist:
         print(f"- {p}")
+
 
 if __name__ == "__main__":
     _test_modulo()

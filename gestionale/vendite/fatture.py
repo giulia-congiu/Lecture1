@@ -3,8 +3,7 @@ from datetime import date
 
 from gestionale.core.clienti import Cliente, ClienteRecord
 from gestionale.core.prodotti import ProdottoRecord
-from gestionale.vendite.ordini import RigaOrdine
-from ordini import Ordine
+from gestionale.vendite.ordini import Ordine, RigaOrdine
 
 @dataclass
 class Fattura:
@@ -28,11 +27,12 @@ class Fattura:
             "-" * 60,
         ]
 
-        for i, riga in enumerate(self.ordine.righe, 1):
+        for i, riga in enumerate(self.ordine.righe,1):
             linee.append(
-                f"{i}. {riga.prodotto.name: 22}"
-                f"Q.tà{riga.quantita: >3} x {riga.prodotto.prezzo_unitario:>8.2f}€ = "
-                f" {riga.totale_riga():>10.2f€}")
+                f"{i}. " 
+                f"{riga.prodotto.name:<22} "
+                f"Q.tà {riga.quantita:>3} x {riga.prodotto.prezzo_unitario:>8.2f}€ = "
+                f"{riga.totale_riga():>10.2f}€")
 
         linee.extend([
             f"-"*60,
@@ -46,19 +46,19 @@ class Fattura:
         return "\n".join(linee)
 
 
-    def test_modulo():
-        p1 = ProdottoRecord("Laptop", 1200.0)
-        p2 = ProdottoRecord("Mouse", 20.0)
-        p3 = ProdottoRecord("Tablet", 600.0)
+def _test_modulo():
+    p1 = ProdottoRecord("Laptop", 1200.0)
+    p2 = ProdottoRecord("Mouse", 20.0)
+    p3 = ProdottoRecord("Tablet", 600.0)
 
-        cliente= ClienteRecord("Mario Bianchi", "mario.bianchi@polito.it", "Gold")
-        ordine= Ordine(righe= [
-            RigaOrdine(p1, 1),
-            RigaOrdine(p2, 5),
-            RigaOrdine(p3, 2)],
-            cliente=cliente)
-        fattura= Fattura(ordine, "2026/01", date.today())
-        print(fattura.genera_fattura())
+    cliente= ClienteRecord("Mario Bianchi", "mario.bianchi@polito.it", "Gold")
+    ordine= Ordine(righe= [
+        RigaOrdine(p1, 1),
+        RigaOrdine(p2, 5),
+        RigaOrdine(p3, 2)],
+        cliente=cliente)
+    fattura= Fattura(ordine, "2026/01", date.today())
+    print(fattura.genera_fattura())
 
-    if __name__ == "__main__":
-        _test_modulo()
+if __name__ == "__main__":
+    _test_modulo()

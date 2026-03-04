@@ -33,8 +33,8 @@ class Cliente:
 
 @dataclass
 class ClienteRecord:
-    name: str
-    email: str
+    nome: str
+    mail: str
     categoria: str
 
 

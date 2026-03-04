@@ -3,14 +3,6 @@ from gestionale.core.prodotti import Prodotto, crea_prodotto_standard, ProdottoR
 from gestionale.core.clienti import Cliente, ClienteRecord
 import networkx as nx
 
-#MODI PER IMPORTARE
-#1) from prodotti import ProdottoScontato
-#   p1 = ProdottoScontato("Ebook Reader", 120.0, 1, "AAA")
-#2) from prodotti import ProdottoScontato as ps
-#   p2= ps("Ebook Reader", 120.0, 1, "AAA")
-#3) import prodotti
-#   p3=prodotti.ProdottoScontato("Ebook Reader", 120.0, 1, "AAA")
-
 print("=======================================================")
 
 p1 = Prodotto("Ebook Reader", 120.0, 1, "AAA")
@@ -43,5 +35,3 @@ print("-------------------------------------------------------------------")
 #Nel package gestionale, scriviamo un modulo fatture.py che contenga:
 # - una classe Fattura che contiene un Ordine, un numero_fattura e una data
 # - un metodo genera_fattura() che restituisce una stringa formattata con tutte le info della fattura
-
-
