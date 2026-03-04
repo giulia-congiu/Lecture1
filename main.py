@@ -1,6 +1,7 @@
 from gestionale.vendite.ordini import Ordine, RigaOrdine, OrdineConSconto
 from gestionale.core.prodotti import Prodotto, crea_prodotto_standard, ProdottoRecord
 from gestionale.core.clienti import Cliente, ClienteRecord
+import networkx as nx
 
 #MODI PER IMPORTARE
 #1) from prodotti import ProdottoScontato
@@ -42,3 +43,5 @@ print("-------------------------------------------------------------------")
 #Nel package gestionale, scriviamo un modulo fatture.py che contenga:
 # - una classe Fattura che contiene un Ordine, un numero_fattura e una data
 # - un metodo genera_fattura() che restituisce una stringa formattata con tutte le info della fattura
+
+

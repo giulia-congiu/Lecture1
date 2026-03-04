@@ -30,7 +30,6 @@ class Ordine:
 @dataclass
 class OrdineConSconto(Ordine):
     sconto_percentuale: float
-
     def totale_scontato(self):
         self.totale_lordo()*(1-self.sconto_percentuale)
 
