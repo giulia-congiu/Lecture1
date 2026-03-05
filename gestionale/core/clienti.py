@@ -18,6 +18,7 @@ class Cliente:
         self.categoria = categoria
 
     @property
+    #getter
     def categoria(self):
         return self._categoria
 

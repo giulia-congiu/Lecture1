@@ -2,7 +2,11 @@ from gestionale.vendite.ordini import Ordine, RigaOrdine, OrdineConSconto
 from gestionale.core.prodotti import Prodotto, crea_prodotto_standard, ProdottoRecord
 from gestionale.core.clienti import Cliente, ClienteRecord
 import networkx as nx
-
+# Scriviamo un codice python che modelli un semplice
+# gestionale aziendale. Dovremo prevedere la possibilità di
+# definire entità che modellano i prodotti, i clienti,
+# offrire interfacce per calcolare i prezzi, eventualmente
+# scontati, ...
 print("=======================================================")
 
 p1 = Prodotto("Ebook Reader", 120.0, 1, "AAA")

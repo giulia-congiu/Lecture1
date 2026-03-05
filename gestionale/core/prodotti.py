@@ -1,10 +1,4 @@
-# Scriviamo un codice python che modelli un semplice
-# gestionale aziendale. Dovremo prvedere la possibilità di
-# definire entità che modellano i prodotti, i clienti,
-# offrire interfacce per calcolare i prezzi, eventualmente
-# scontati, ...
 from dataclasses import dataclass
-
 
 class Prodotto:
     aliquota_iva = 0.22  # variabile di classe -- ovvero è la stessa per tutte le istanze che verranno create.
@@ -32,7 +26,7 @@ class Prodotto:
     def applica_sconto(prezzo, percentuale):
         return prezzo * (1 - percentuale)
 
-    @property
+    @property  #sarebbe come un GETTER
     def price(self):  # eq. getter
         return self._price
 
@@ -43,13 +37,15 @@ class Prodotto:
         self._price = valore
 
     def __str__(self):
+        #serve per stampare a schermo
         return f"{self.name} - disponibili {self.quantity} pezzi a {self.price} $"
 
     def __repr__(self):
+        #serve a me per vedere la rappresentazione dell'oggetto
         return f"Prodotto(name = {self.name}, price = {self.price}, quantity = {self.quantity}, supplier = {self.supplier})"
 
     def __eq__(self, other: object):
-
+        #implementa l'uguaglianza ==
         if not isinstance(other, Prodotto):
             return NotImplemented
         return (self.name == other.name
@@ -58,6 +54,7 @@ class Prodotto:
                 and self.supplier == other.supplier)
 
     def __lt__(self, other: "Prodotto") -> bool:
+        #implementa <
         return self.price < other.price
 
     def prezzo_finale(self) -> float:
@@ -65,12 +62,13 @@ class Prodotto:
 
 
 class ProdottoScontato(Prodotto):
+    #classe che eredita prodotto
     def __init__(self, name: str, price: float, quantity: int, supplier: str, sconto_percento: float):
         # Prodotto.__init__()
         super().__init__(name, price, quantity, supplier)
         self.sconto_percento = sconto_percento
 
-    def prezzo_finale(self) -> float:
+    def prezzo_finale(self) -> float: #può ridefinire il metodo della classe padre
         return self.valore_lordo() * (1 - self.sconto_percento / 100)
 
 
@@ -94,32 +92,33 @@ class Abbonamento:
 
 
 @dataclass
+#definisce la classe in automatico
 class ProdottoRecord:
     name: str
     prezzo_unitario: float
 
-
 MAX_QUANTITA = 1000
 
-
 def crea_prodotto_standard(nome: str, prezzo: float):
+    #penso sia come un costruttore
     return Prodotto(nome, prezzo, 1, None)
 
 
 def _test_modulo():
     print("Sto testando il modulo prodotti.py")
+
     myproduct1 = Prodotto(name="Laptop", price=1200.0, quantity=12, supplier="ABC")
-
     print(f"Nome prodotto: {myproduct1.name} - prezzo: {myproduct1.price}")
-
     print(f"Il totale lordo di myproduct1 è {myproduct1.valore_lordo()}")  # uso un metodo di istanza
-    p3 = Prodotto.costruttore_con_quantità_uno("Auricolari", 200.0, "ABC")  # Modo per chiamare un metodo di classe.
-    print(
-        f"Prezzo scontato di myproduct1 {Prodotto.applica_sconto(myproduct1.price, 0.15)}")  # Modo per chiamare un metodo statico.
+
+    p3 = Prodotto.costruttore_con_quantità_uno("Auricolari", 200.0, "ABC")
+    # Modo per chiamare un metodo di classe.
+
+    print(f"Prezzo scontato di myproduct1 {Prodotto.applica_sconto(myproduct1.price, 0.15)}")
+    # Modo per chiamare un metodo statico.
 
     myproduct2 = Prodotto("Mouse", 10, 25, "CDE")
     print(f"Nome prodotto: {myproduct2.name} - prezzo: {myproduct2.price}")
-
     print(f"Valore lordo di myproduct1: {myproduct1.valore_lordo()}")
     Prodotto.aliquota_iva = 0.24
     print(f"Valore lordo di myproduct1: {myproduct1.valore_lordo()}")

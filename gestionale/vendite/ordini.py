@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-
 from gestionale.core.clienti import ClienteRecord
 from gestionale.core.prodotti import ProdottoRecord
 
