@@ -44,7 +44,6 @@ class Fattura:
 
         return "\n".join(linee)
 
-
 def _test_modulo():
     p1 = ProdottoRecord("Laptop", 1200.0)
     p2 = ProdottoRecord("Mouse", 20.0)
