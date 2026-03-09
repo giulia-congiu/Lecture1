@@ -30,7 +30,7 @@ carrello.clear() #elimina tutto
 #sorting
 carrello.sort() #ordina per ordinamento naturale
 carrello.sort(reverse=True) #ordina al contrario
-carrello.sort(key=funciotn )
+#carrello.sort(key=funciotn )
 carrello_ordinato= sorted(carrello) #prende carello lo riordina e gli cambia none.
 
 carrello.reverse() #mi rida la lista al contrario
@@ -61,9 +61,38 @@ def calcola_statistiche_carrello(carrello):
 
 tot, media, max, min = calcola_statistiche_carrello(carrello)
 #oppure
-tot, *altri_campi = calcola_statistiche_carrello(carrello)
+#tot, *altri_campi = calcola_statistiche_carrello(carrello)
 print(tot)
 
+#SET
+categorie={"Gold", "Silver", "Bronze", "Gold"}
+print(categorie)
+print(len(categorie))
+categorie2={"Platinum", "Elite"}
+categorie_all=categorie | categorie2 #unione
+print(categorie_all)
+
+categorie_comuni= categorie & categorie2 #solo elementi comune
+print(categorie_comuni)
+
+categorie_esclusive=categorie - categorie2 #elementi presenti in uno dei due
+print(categorie_esclusive)
+
+categorie_esclusive_sym=categorie ^ categorie2 #differenza simmetrica
+print(categorie_esclusive_sym)
+
+prodottiOrdine_A= {ProdottoRecord("Laptop", 1200.0),
+                   ProdottoRecord("Mouse", 250.0),
+                   ProdottoRecord("Auricolari", 250.0)}
+
+prodottiOrdine_B= {ProdottoRecord("Laptop2", 1200.0),
+                   ProdottoRecord("Mouse2", 250.0),
+                   ProdottoRecord("Tablet", 250.0)}
+
+#metodi utili x test
+s=set()
+s.add((ProdottoRecord("aaa", 20.0)
+s.update([ProdottoRe])
 
 
 
