@@ -1,3 +1,5 @@
+import copy
+
 from gestionale.core.prodotti import ProdottoRecord
 from main_colorato import p2
 
@@ -55,13 +57,14 @@ for descr, valore in aliquoteIva:
     print(f"{descr}: {valore*100}%")
 
 def calcola_statistiche_carrello(carrello):
-    """Restituisce prezzo totale, medio, minimo"""
-    prezzi= [p.prezzo_unitario for p in carrello]
+    """Restituisce prezzo totale, prezzo medio, massimo e minimo"""
+    prezzi = [p.prezzo_unitario for p in carrello]
     return (sum(prezzi), sum(prezzi)/len(prezzi), max(prezzi), min(prezzi))
 
+
 tot, media, max, min = calcola_statistiche_carrello(carrello)
-#oppure
-#tot, *altri_campi = calcola_statistiche_carrello(carrello)
+
+# tot, *altri_campi = calcola_statistiche_carrello(carrello)
 print(tot)
 
 #SET
@@ -97,6 +100,7 @@ s1 = set()
 s.add(ProdottoRecord("aaa", 20.0)) #aggiunge un elemento
 s.update([ProdottoRecord("aaa", 20.0), ProdottoRecord("bbb", 20.0)]) #aggiungo più elementi
 
+elem= ProdottoRecord("bbb", 30)
 #togliere
 s.remove(elem) #rimuove un elemento. Raise KeyError se non esiste.
 s.discard(elem) #rimuove un elemento, senza "arrabbiarsi" se questo non esiste.
@@ -113,14 +117,45 @@ s1.issubset(s) #se gli elementi di s1 sono contenuti in s
 s1.issuperset(s) # se gli elementi di s sono contenuti in s1
 s1.isdisjoint(s) # se gli elementi di s e quelli di s1 sono diversi
 
-#Dictionary
+#DICTIONARY
+catalogo={
+    "LAP001": ProdottoRecord("Laptop", 1200.0),
+    "LAP002": ProdottoRecord("Laptop2", 250.0),
+    "LAP003": ProdottoRecord("mouse", 250.0),
+    "LAP004": ProdottoRecord("Auricolari", 250.0)
+}
+cod = "LAP002"
+prod = catalogo[cod]
 
+print(f"Il prodotto con codice {cod} è {prod}")
+print(f"Cerco un altro oggetto: {catalogo["non esiste"]}")
+prod1= catalogo.get("non esiste")
+if prod1 is None:
+    print("Prodotto non trovato")
+prod2=catalogo.get("non esiste", ProdottoRecord("Sconosciuto", 0))
 
+print(prod2)
 
+keys= list(catalogo.keys())
+values= list(catalogo.values())
 
+for k in keys:
+    print(k)
 
+for v in values:
+    print(v)
 
+for key, val in catalogo.items():
+    print(f"Cod {key} è associata a {val}")
 
+#rimuovere dal diz
+rimosso= catalogo.pop("LAP002")
+print(rimosso)
 
+#DICT COMPREHENSION
+prezzi ={codice: prod.prezzo_unitario for codice, prod in catalogo.items()}
 
-
+#DA RICORDARE PER DICT
+d[key]= v #scrivo sul dizionario
+v =d[key] #leggere--restituisce key error se nn esiste
+v =d.get(key, default) #legge senza rischiare key error.
