@@ -89,10 +89,31 @@ prodottiOrdine_B= {ProdottoRecord("Laptop2", 1200.0),
                    ProdottoRecord("Mouse2", 250.0),
                    ProdottoRecord("Tablet", 250.0)}
 
-#metodi utili x test
-s=set()
-s.add((ProdottoRecord("aaa", 20.0)
-s.update([ProdottoRe])
+#Metodi utili per i set
+s = set()
+s1 = set()
+
+#aggiungere
+s.add(ProdottoRecord("aaa", 20.0)) #aggiunge un elemento
+s.update([ProdottoRecord("aaa", 20.0), ProdottoRecord("bbb", 20.0)]) #aggiungo più elementi
+
+#togliere
+s.remove(elem) #rimuove un elemento. Raise KeyError se non esiste.
+s.discard(elem) #rimuove un elemento, senza "arrabbiarsi" se questo non esiste.
+s.pop() #rimuove e restituisce un elemento.
+s.clear()
+
+#operazioni insiemistiche
+s.union(s1) # s | s1, ovvero genera un set che unisce i due set di partenza
+s.intersection(s1) # s & s1, ovvero solo elementi comuni
+s.difference(s1) # s-s1, ovvero elementi di s che non sono contenuti in s1
+s.symmetric_difference(s1) #s ^s1, ovvero elementi di s non contenuti in s1 ed elementi di s1 non contenuti in s
+
+s1.issubset(s) #se gli elementi di s1 sono contenuti in s
+s1.issuperset(s) # se gli elementi di s sono contenuti in s1
+s1.isdisjoint(s) # se gli elementi di s e quelli di s1 sono diversi
+
+#Dictionary
 
 
 

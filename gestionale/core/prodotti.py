@@ -97,6 +97,9 @@ class ProdottoRecord:
     name: str
     prezzo_unitario: float
 
+    def __hash__(self):
+        return hash((self.name, self.prezzo_unitario)) #passo argomenti per disambiguare le istanze della classe
+
 MAX_QUANTITA = 1000
 
 def crea_prodotto_standard(nome: str, prezzo: float):
