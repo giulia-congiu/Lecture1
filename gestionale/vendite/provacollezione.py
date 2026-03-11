@@ -168,5 +168,7 @@ per ciascuno dei seguenti casi, decidere quale struttura usare:
 2) Memorizzare i CF dei clienti (univoco): set 
 3) Creare un database di prodotti che posso cercare con un codice univoco: diz con chiave come codice e oggetto prodotto 
 4) Memorizzare le coordinate gps della nuova sede di Roma: tupla
-5) Tenere traccia delle categorie di clienti che hanno fatto un ordine in un certo range temporale
+5) Tenere traccia delle categorie di clienti che hanno fatto un ordine in un certo range temporale: set
 """
+
+#COUNTER
