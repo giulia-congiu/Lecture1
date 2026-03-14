@@ -31,27 +31,26 @@ tot = sum(p.prezzo_unitario for p in carrello)
 print(f"Totale del carrello: {tot}")
 
 
-
-
 #aggiungere
 carrello.append(ProdottoRecord("Propdo", 100.0))
 carrello.extend([ProdottoRecord("aaa", 100.0), ProdottoRecord("bbb", 100.0)])
 carrello.insert(2, ProdottoRecord("ccc", 250.0))
 
 #rimuovere
-carrello.pop() #rimuove ultimo elemento
-carrello.pop(2) #rimuove elemento in posizione 2
-carrello.remove(p1) #elimino la prima occorrenza di p1
-carrello.clear() #elimina tutto
+# carrello.pop() #rimuove ultimo elemento
+# carrello.pop(2) #rimuove elemento in posizione 2
+# carrello.remove(p1) #elimino la prima occorrenza di p1
+# carrello.clear() #elimina tutto
 
 #sorting
-carrello.sort() #ordina per ordinamento naturale
-carrello.sort(reverse=True) #ordina al contrario
-#carrello.sort(key=funciotn )
-carrello_ordinato= sorted(carrello) #prende carello lo riordina e gli cambia none.
+#carrello.sort() #ordina per ordinamento naturale -- questo non funziona se gli oggetti contenuti non definisco un metodo __lt__
+#carrello.sort(reverse=True) #ordina al contrario
+#carrello.sort( key=funciotn )
+#carrello_ordinato= sorted(carrello) #restituisce una nuova lista ordinata, la lista originale non viene modificata
 
+#copie e altro
 carrello.reverse() #mi rida la lista al contrario
-carrello_copia= carrello.copy() #fa una copia di carrello. °shallow copy: GLI OGGETTI
+carrello_copia= carrello.copy() #shallow copy. fa una copia di carrello e GLI OGGETTI
                                 # contenuti nelle due liste sono gli stessi
 carrello_copia2= copy.deepcopy(carrello) #crea una lista con oggetti nuovi
 
@@ -61,20 +60,20 @@ sede_Milano=(45,9 )
 
 print(f"Sede principale lat: {sede_principale[0]}, long: {sede_principale[1]}")
 
-aliquoteIva=(
+AliquoteIva=(
         ("Standard", 0.22),
         ("Ridotta", 0.10),
         ("Alimentari", 0.04),
         ("Esente", 0.0)
     )
 
-for descr, valore in aliquoteIva:
+for descr, valore in AliquoteIva:
     print(f"{descr}: {valore*100}%")
 
 def calcola_statistiche_carrello(carrello):
     """Restituisce prezzo totale, prezzo medio, massimo e minimo"""
     prezzi = [p.prezzo_unitario for p in carrello]
-    return (sum(prezzi), sum(prezzi)/len(prezzi), max(prezzi), min(prezzi))
+    return (sum(prezzi), sum(prezzi) / len(prezzi), max(prezzi), min(prezzi))
 
 
 tot, media, max, min = calcola_statistiche_carrello(carrello)
@@ -87,13 +86,14 @@ categorie={"Gold", "Silver", "Bronze", "Gold"}
 print(categorie)
 print(len(categorie))
 categorie2={"Platinum", "Elite"}
-categorie_all=categorie | categorie2 #unione
+#categorie_all= categorie.union(categorie2)
+categorie_all = categorie | categorie2 # unione
 print(categorie_all)
 
-categorie_comuni= categorie & categorie2 #solo elementi comune
+categorie_comuni= categorie & categorie2 #solo elementi comuni
 print(categorie_comuni)
 
-categorie_esclusive=categorie - categorie2 #elementi presenti in uno dei due
+categorie_esclusive=categorie - categorie2 #solo elementi presenti in uno dei due
 print(categorie_esclusive)
 
 categorie_esclusive_sym=categorie ^ categorie2 #differenza simmetrica
@@ -115,10 +115,10 @@ s1 = set()
 s.add(ProdottoRecord("aaa", 20.0)) #aggiunge un elemento
 s.update([ProdottoRecord("aaa", 20.0), ProdottoRecord("bbb", 20.0)]) #aggiungo più elementi
 
-elem= ProdottoRecord("bbb", 30)
+
 #togliere
-s.remove(elem) #rimuove un elemento. Raise KeyError se non esiste.
-s.discard(elem) #rimuove un elemento, senza "arrabbiarsi" se questo non esiste.
+#s.remove(elem) #rimuove un elemento. Raise KeyError se non esiste.
+#s.discard(elem) #rimuove un elemento, senza "arrabbiarsi" se questo non esiste.
 s.pop() #rimuove e restituisce un elemento.
 s.clear()
 
@@ -143,14 +143,19 @@ cod = "LAP002"
 prod = catalogo[cod]
 
 print(f"Il prodotto con codice {cod} è {prod}")
-print(f"Cerco un altro oggetto: {catalogo["non esiste"]}")
-prod1= catalogo.get("non esiste")
+
+#print(f"Cerco un altro oggetto: {catalogo["non esiste"]}")
+
+prod1= catalogo.get("NonEsiste")
+
 if prod1 is None:
     print("Prodotto non trovato")
-prod2=catalogo.get("non esiste", ProdottoRecord("Sconosciuto", 0))
+
+prod2=catalogo.get("NonEsiste2", ProdottoRecord("Sconosciuto", 0))
 
 print(prod2)
 
+#ciclare su un dizionario
 keys= list(catalogo.keys())
 values= list(catalogo.values())
 
@@ -163,18 +168,29 @@ for v in values:
 for key, val in catalogo.items():
     print(f"Cod {key} è associata a {val}")
 
-#rimuovere dal diz
+#rimuovere dal dizionario
 rimosso= catalogo.pop("LAP002")
 print(rimosso)
 
-#DICT COMPREHENSION
+#DICT COMPREHENSION: un modo compatto per creare un dizionario in una riga sola.
 prezzi ={codice: prod.prezzo_unitario for codice, prod in catalogo.items()}
+# dizionario= {chiave: valore for chiave, valore in dizionario.items()}
+
+#esempio versione lunga
+# prezzi = {}
+# for codice, prod in catalogo.items():
+#     prezzi[codice] = prod.prezzo_unitario
 
 #DA RICORDARE PER DICT
-# d[key]= v #scrivo sul dizionario
-# v =d[key] #leggere--restituisce key error se nn esiste
-# v =d.get(key, default) #legge senza rischiare key error.
-# #CONTINUAAAAAA
+# d[key] = v # scrivo sul dizionario
+# v = d[key] # leggere -- restituisce key error se non esiste
+# v = d.get(key, default) # legge senza rischiare keyerror. Se non esiste rende il default
+# d.pop(key) # restiuisce un valore e lo cancella dal diz
+# d.clear() # elimina tutto.
+# d.keys() # mi restituisce tutte le chiavi definite nel diz
+# d.values() # mi resituisce tutti i valori salvati nel diz
+# d.items() # restituisce le coppie chiave-valore.
+# key in d # condizione che verifica se key è presente nel diz
 
 """ESERCIZIO
 per ciascuno dei seguenti casi, decidere quale struttura usare:
