@@ -193,13 +193,100 @@ prezzi ={codice: prod.prezzo_unitario for codice, prod in catalogo.items()}
 # key in d # condizione che verifica se key è presente nel diz
 
 """ESERCIZIO
-per ciascuno dei seguenti casi, decidere quale struttura usare:
+per ciascuno dei seguenti casi, decidere quale struttura usare:"""
 
-1) Memorizzare un elenco di ordini che dovranno essere processati in ordine di arrivo: lista
-2) Memorizzare i CF dei clienti (univoco): set 
-3) Creare un database di prodotti che posso cercare con un codice univoco: diz con chiave come codice e oggetto prodotto 
-4) Memorizzare le coordinate gps della nuova sede di Roma: tupla
-5) Tenere traccia delle categorie di clienti che hanno fatto un ordine in un certo range temporale: set
-"""
+"""1) Memorizzare una elenco di ordini che dovranno poi essere processati in ordine di arrivo"""
+# Collection? Lista
+
+ordini_da_processare = []
+o1 = Ordine([], ClienteRecord("Mario Rossi", "mario@polito.it", "Gold"))
+o2 = Ordine([], ClienteRecord("Mario Bianchi", "bianchi@polito.it", "Silver"))
+o3 = Ordine([], ClienteRecord("Fulvio Rossi", "fulvio@polito.it", "Bronze"))
+o4 = Ordine([], ClienteRecord("Carlo Masone", "carlo@polito.it", "Gold"))
+
+ordini_da_processare.append((o1, 0))
+ordini_da_processare.append((o2, 10))
+ordini_da_processare.append((o3, 3))
+ordini_da_processare.append((o4, 45))
+
+"""2) Memorizzare i CF dei clienti (univoco)"""
+# Collection? SET
+codici_fiscali = {"ajnfkefioe231", "ajnsow241", "njknaskm1094", "ajnsow241"}
+print(codici_fiscali)
+
+"""3) Creare un database di prodotti che posso cercare con un codice univoco"""
+# Collection? DIZIONARIO
+listino_prodotti = {"LAP0001" : ProdottoRecord("Laptop", 1200.0),
+                    "KEY001" : ProdottoRecord("Keyboard", 20.0)}
+
+"""4) Memorizzare le coordinate gps della nuova sede di Roma"""
+# Collection? TUPLA
+magazzino_roma = (45, 6)
+
+"""5) Tenere traccia delle categorie di clienti che hanno fatto un ordine in un certo range temporale"""
+# Collection? SET
+categorie_periodo = set()
+categorie_periodo.add("Gold")
+categorie_periodo.add("Bronze")
+
+print("=============================================================")
+
 
 #COUNTER
+lista_clienti = [
+    ClienteRecord("Mario Rossi", "mario@polito.it", "Gold"),
+    ClienteRecord("Mario Bianchi", "bianchi@polito.it", "Silver"),
+    ClienteRecord("Fulvio Rossi", "fulvio@polito.it", "Bronze"),
+    ClienteRecord("Carlo Masone", "carlo@polito.it", "Gold"),
+    ClienteRecord("Mario Bianchi", "mario@polito.it", "Gold"),
+    ClienteRecord("Giuseppe Averta", "bianchi@polito.it", "Silver"),
+    ClienteRecord("Francesca Pistilli", "fulvio@polito.it", "Bronze"),
+    ClienteRecord("Carlo Masone", "carlo@polito.it", "Gold"),
+    ClienteRecord("Fulvio Corno", "carlo@polito.it", "Silver")
+]
+
+categorie = [c.categoria for c in lista_clienti]
+categorie_counter = Counter(categorie)
+
+print("Distribuzione categorie clienti")
+print(categorie_counter)
+# Counter({'Gold': 4, 'Silver': 3, 'Bronze': 2})
+
+print("2 Categorie più frequent1")
+print(categorie_counter.most_common(2))
+# [('Gold', 4), ('Silver', 3)]
+
+print("totale:")
+print(categorie_counter.total())
+
+vendite_gennaio = Counter(
+    {"Laptop": 13, "Tablet": 15}
+)
+
+vendite_febbraio = Counter(
+    {"Laptop": 3, "Stampante": 1}
+)
+
+vendite_bimestre = vendite_gennaio+vendite_febbraio
+
+#Aggregare informazione
+print(f"Vendite Gennaio: {vendite_gennaio}")
+print(f"Vendite Febbraio: {vendite_febbraio}")
+print(f"Vendite bimestre: {vendite_bimestre}")
+#  Vendite bimestre: Counter({'Laptop': 16, 'Tablet': 15, 'Stampante': 1})
+
+# Fare la differenza
+print(f"Differenza di vendite: {vendite_gennaio-vendite_febbraio}")
+# Differenza di vendite: Counter({'Tablet': 15, 'Laptop': 10})
+
+#modificare i valore in the fly
+vendite_gennaio["Laptop"] += 4
+print(f"Vendite Gennaio: {vendite_gennaio}")
+# Vendite Gennaio: Counter({'Laptop': 17, 'Tablet': 15})
+
+
+# metodi da ricordare
+#counter.most_common(n) #restituisce gli n elementi più frequenti
+#counter.total() # somma dei conteggi
+
+#Defaultdicts
