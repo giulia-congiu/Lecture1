@@ -1,15 +1,27 @@
 import copy
+from collections import Counter
 
+from gestionale.core.clienti import ClienteRecord
 from gestionale.core.prodotti import ProdottoRecord
-from main_colorato import p2
+from gestionale.vendite.ordini import Ordine
 
 p1=  ProdottoRecord("Laptop", 1200.0)
 p2 = ProdottoRecord("Mouse", 20.0)
 p3 = ProdottoRecord("Auricolari", 250.0)
 
 #LISTE
+carrello = [p1, p2, p3, ProdottoRecord("tablet", 750.0)]
 
-carrello = [p1,p2,p3, ProdottoRecord("tablet", 750.0)]
+print("Prodotti nel carrello:")
+for i, p in enumerate(carrello):
+    print(f"{i}) {p.name} - {p.prezzo_unitario}")
+
+#Aggiungere ad una lista
+carrello.append(ProdottoRecord("Monitor", 150.0))
+
+carrello.sort(key = lambda x: x.prezzo_unitario, reverse=True)
+#dice a Python come ordinare.
+# Per ogni elemento x della lista, usa x.prezzo_unitario come criterio di ordinamento.
 
 print("Prodotti nel carrello")
 for i, p in enumerate(carrello):
@@ -18,9 +30,12 @@ for i, p in enumerate(carrello):
 tot = sum(p.prezzo_unitario for p in carrello)
 print(f"Totale del carrello: {tot}")
 
+
+
+
 #aggiungere
-carrello.append(ProdottoRecord("Monitor", 150.0))
-carrello.extend([ProdottoRecord("AAA", 100.0)])
+carrello.append(ProdottoRecord("Propdo", 100.0))
+carrello.extend([ProdottoRecord("aaa", 100.0), ProdottoRecord("bbb", 100.0)])
 carrello.insert(2, ProdottoRecord("ccc", 250.0))
 
 #rimuovere
