@@ -9,7 +9,9 @@ ordini
 """
 from collections import deque, Counter, defaultdict
 
-from gestionale.vendite.ordini import Ordine
+from gestionale.core.clienti import ClienteRecord
+from gestionale.core.prodotti import ProdottoRecord
+from gestionale.vendite.ordini import Ordine, RigaOrdine
 
 
 class GestoreOrdini:
@@ -28,7 +30,8 @@ class GestoreOrdini:
 
     def processa_prossimo_ordine(self):
         """Questo metodo legge il prossimo ordine in coda e lo gestisce"""
-
+        print("\n" + "-" * 60)
+        print("\n" + "-" * 60)
         # controllo se ho ordini da processare:
         if not self._ordini_daProcessare:
             print("Non ci sono ordini in coda")
@@ -60,6 +63,7 @@ class GestoreOrdini:
     #potrei pensare a un metodo che gestisce tutti gli ordini insieme
     def processa_tutti_ordini(self):
         """Processa tutti gli ordini attualmente presenti in coda"""
+        print("\n" + "=" * 60)
         print(f"Processando {len(self._ordini_daProcessare)} ordini")
         while self._ordini_daProcessare:
             self.processa_prossimo_ordine()
@@ -80,11 +84,10 @@ class GestoreOrdini:
             ordini= self._ordiniPer_categoria[categ] #per ogni chiave prendo la lista di ordini effettuati associati ad essa
             totale_Fatturato= sum([o.totale_lordo(0.22) for o in ordini]) #per ogni ordine prendo il totale lordo e poi sommo
             valori.append((categ, totale_Fatturato))
-         return valori
+        return valori
 
         #QUESTI GET GLI HO FATTI PERCHE': essendo attributi che ho messo privati, voglio che sia visibile
             #solo quello che decido io quindi con la get SCELGO IO come e cosa restituire
-
 
     def stampa_riepilogo(self):
         """Stampa info di massima"""
@@ -101,3 +104,38 @@ class GestoreOrdini:
         for cat, fatturato in self.get_distribuzione_categorie():
             print(f"{cat}: {fatturato}")
 
+def test_modulo():
+    sistema= GestoreOrdini() #creo un istanza della classe
+    ordini= [
+        Ordine([
+            RigaOrdine(ProdottoRecord("Laptop", 1200.0), 1),
+            RigaOrdine(ProdottoRecord("Mouse", 10.0), 3)],
+            ClienteRecord("Mario Rossi", "mario@gmail.com", "Gold")),
+        Ordine([
+            RigaOrdine(ProdottoRecord("Laptop", 1200.0), 1),
+            RigaOrdine(ProdottoRecord("Mouse", 10.0), 2),
+            RigaOrdine(ProdottoRecord("Tablet", 500.0), 1),
+            RigaOrdine(ProdottoRecord("Cuffie", 250.0), 3)],
+            ClienteRecord("Fulvio Bianchi", "fulvio@gmail.com", "Gold")),
+        Ordine([
+            RigaOrdine(ProdottoRecord("Laptop", 1200.0), 2),
+            RigaOrdine(ProdottoRecord("Mouse", 10.0), 2)],
+            ClienteRecord("Giulia Congiu", "giulia@gmail.com", "Silver")),
+        Ordine([
+            RigaOrdine(ProdottoRecord("Tablet", 900.0), 1),
+            RigaOrdine(ProdottoRecord("Cuffie", 250.0), 3)],
+            ClienteRecord("Alessia Neri", "alessia@gmail.com", "Gold")),
+        Ordine([
+            RigaOrdine(ProdottoRecord("Laptop", 1200.0), 1),
+            RigaOrdine(ProdottoRecord("Mouse", 10.0), 3)],
+            ClienteRecord("Antonio Pes", "antonio@gmail.com", "Bronze"))
+    ]
+
+    for o in ordini:
+        sistema.add_ordine(o)
+
+    sistema.processa_tutti_ordini()
+    sistema.stampa_riepilogo()
+
+if __name__ == "__main__":
+    test_modulo()
