@@ -131,6 +131,7 @@ def test_modulo():
             ClienteRecord("Antonio Pes", "antonio@gmail.com", "Bronze"))
     ]
 
+
     for o in ordini:
         sistema.add_ordine(o)
 
