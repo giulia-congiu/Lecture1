@@ -14,7 +14,7 @@ from gestionale.core.prodotti import ProdottoRecord
 from gestionale.vendite.ordini import Ordine, RigaOrdine
 
 
-class GestoreOrdini:
+class GestoreOrdini: #MODELLO
     def __init__(self):
         self._ordini_daProcessare=deque()
         self._ordini_processati=[]  #a quel punto non importa l'ordinamento
@@ -27,6 +27,9 @@ class GestoreOrdini:
         self._ordini_daProcessare.append(ordine)
         print(f"Ricevuto un nuovo ordine da parte di {ordine.cliente}.")
         print(f"Ordini ancora da evadere: {len(self._ordini_daProcessare)}")
+
+    def crea_ordine (self, nomeP, prezzoP, quantitaP, nomeC, mailC,categoriaC):
+        return Ordine([RigaOrdine(ProdottoRecord(nomeP, prezzoP), quantitaP)], ClienteRecord(nomeC, mailC, categoriaC))
 
     def processa_prossimo_ordine(self):
         """Questo metodo legge il prossimo ordine in coda e lo gestisce"""
