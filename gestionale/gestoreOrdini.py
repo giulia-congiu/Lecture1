@@ -38,7 +38,7 @@ class GestoreOrdini: #MODELLO
         # controllo se ho ordini da processare:
         if not self._ordini_daProcessare:
             print("Non ci sono ordini in coda")
-            return False
+            return False, Ordine([], ClienteRecord("", "", "")) #metto un ordine vuoto nel return
 
         #se esiste, gestisco il primo in coda
         ordine=self._ordini_daProcessare.popleft() #logica FIFO
@@ -60,7 +60,7 @@ class GestoreOrdini: #MODELLO
 
         print("ORDINE CORRETTAMENTE PROCESSATO")
 
-        return True
+        return True, ordine
 
 
     #potrei pensare a un metodo che gestisce tutti gli ordini insieme
@@ -68,9 +68,13 @@ class GestoreOrdini: #MODELLO
         """Processa tutti gli ordini attualmente presenti in coda"""
         print("\n" + "=" * 60)
         print(f"Processando {len(self._ordini_daProcessare)} ordini")
+        ordini=[]
+
         while self._ordini_daProcessare:
-            self.processa_prossimo_ordine()
+            _, ordine= self.processa_prossimo_ordine() # _ = la variabile la chiamo cosi se nn mi serve
+            ordini.append(ordine)
         print("Tutti gli ordini sono stati processati")
+        return ordini
 
     def get_statistiche_prodotti(self, top_n: int=5): #gli do 5 come valore di default se non ne viene inserito un altro
         """Questo metodo ridà info sui prodotti più venduti"""
@@ -106,6 +110,23 @@ class GestoreOrdini: #MODELLO
         print(f"Fatturato per categoria:")
         for cat, fatturato in self.get_distribuzione_categorie():
             print(f"{cat}: {fatturato}")
+
+    def get_riepilogo(self):
+        """rida info di massima"""
+        sommario=""
+        sommario += "\n" + "=" * 60
+        sommario += f"\n Ordini correttamente gestiti: {len(self._ordini_processati)}"
+        sommario += f"\n Ordini in coda: {len(self._ordini_daProcessare)}"
+
+        sommario += "\n Prodotti + venduti:"
+        for prod, quantita in self.get_statistiche_prodotti():
+            sommario += f"\n {prod}: {quantita}"
+
+        sommario += f"\n Fatturato per categoria:"
+        for cat, fatturato in self.get_distribuzione_categorie():
+            sommario += f"\n {cat}: {fatturato}"
+        sommario += "\n" + "=" * 60
+        return sommario
 
 def test_modulo():
     sistema= GestoreOrdini() #creo un istanza della classe

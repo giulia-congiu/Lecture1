@@ -9,6 +9,12 @@ class View:
         self._page.title= "TDP 2025 - Software gestionale"
         self._page.horizontal_alignment = "CENTER"
         self._page.theme_mode = ft.ThemeMode.LIGHT
+        self._txtInNomeP =None
+        self._txtInPrezzo =None
+        self._txtInQuantita =None
+        self._txtInCategoria =None
+        self._txtInMail =None
+        self._txtInNomeC = None
         self.update_page()
 
     def set_controller(self, c):
