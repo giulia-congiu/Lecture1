@@ -2,8 +2,9 @@
 import mysql.connector
 
 class DBConnect:
-    def getConnection(self):
 
+    @classmethod
+    def getConnection(cls):
        try: #perchè potrebbe fallire
            cnx = mysql.connector.connect(  # connesione fisica che mi collega al database
                 user="root",

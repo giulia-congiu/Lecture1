@@ -16,7 +16,6 @@ class DAO:
         # )
         cnx = DBConnect.getConnection()
 
-
         cursor = cnx.cursor(dictionary=True) #mi serve per scorrere i risultati delle query
         cursor.execute("Select * from prodotti")
         row  = cursor.fetchall() #lista di dict
@@ -39,15 +38,14 @@ class DAO:
         # )
         cnx = DBConnect.getConnection()
 
-        cursor = cnx.cursor(dictionary=True)  # mi serve per scorrere i risultati delle query
+        cursor = cnx.cursor(dictionary=True)
         cursor.execute("Select * from clienti")
-        row = cursor.fetchall()  # lista di dict
+        row = cursor.fetchall()
 
         res = []
         for p in row:
             res.append(ClienteRecord(p["nome"], p["mail"], p["categoria"]))  # NOMI CHE HO DATO NEL DATABASE
 
-        # RICORDA DI CHIUDERE LA CONNESSIONE
         cursor.close()
         cnx.close()
         return res
@@ -55,28 +53,29 @@ class DAO:
     def addProdotto(self, prodotto):
         cnx = DBConnect.getConnection()
 
-        cursor = cnx.cursor()  # mi serve per scorrere i risultati delle query
+        cursor = cnx.cursor()
         query ="""insert into prodotti (nome, prezzo) values (%s, %s)"""
         cursor.execute(query, (prodotto.name, prodotto.prezzo_unitario))
+
         cnx.commit()
         cursor.close()
         cnx.close()
         return
 
     def addCliente(self, cliente):
-
         cnx = DBConnect.getConnection()
 
-        cursor = cnx.cursor()  # mi serve per scorrere i risultati delle query
+        cursor = cnx.cursor()
         query ="""insert into clienti (nome, mail, categoria) values (%s, %s)"""
+
         cursor.execute(query, (cliente.nome, cliente.mail, cliente.categoria))
+
         cnx.commit()
         cursor.close()
         cnx.close()
         return
 
     def hasCliente(self, cliente):
-
         cnx = DBConnect.getConnection()
 
         cursor = cnx.cursor(dictionary=True)
@@ -89,7 +88,6 @@ class DAO:
         return len(row)>0 #se row ha almeno una riga, il cliente c'è e non devo metterlo altrimenti si
 
     def hasProdotto(self, prod):
-
         cnx = DBConnect.getConnection()
 
         cursor = cnx.cursor(dictionary=True)
