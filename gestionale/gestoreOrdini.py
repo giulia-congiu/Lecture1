@@ -23,15 +23,15 @@ class GestoreOrdini: #MODELLO
         self._statistiche_prodotti= Counter()
         self._ordiniPer_categoria= defaultdict(list) #diz. con chiavi=cateoria e valori=ordini
         #uso il default dic per non gestire il controllo dell 'esiste quella categoria?' no? e allora creamela
-        self._dao = DAO()
+        #self._dao = DAO()
         self._allP = []
         self._allC = []
         self._fill_data()
 
     def _fill_data(self):
         #leggo prodotti e clienti dal db e creo ordini randomici per testare la mia app
-        self._allP.extend(self._dao.getAllProdotti())
-        self._allC.extend(self._dao.getAllCLienti())
+        self._allP.extend(DAO.getAllProdotti())
+        self._allC.extend(DAO.getAllCLienti())
 
         for i in range(10):
             indexP = random.randint(0,len(self._allP)-1)
@@ -56,11 +56,11 @@ class GestoreOrdini: #MODELLO
         return Ordine([RigaOrdine(prod, quantitaP)], cliente)
 
     def _update_DB(self, prod, cliente):
-        if not self._dao.hasProdotto(prod):
-            self._dao.addProdotto(prod)
+        if not DAO.hasProdotto(prod):
+            DAO.addProdotto(prod)
 
-        if not self._dao.hasCliente(cliente):
-            self._dao.addCliente(cliente)
+        if not DAO.hasCliente(cliente):
+           DAO.addCliente(cliente)
 
 
 
